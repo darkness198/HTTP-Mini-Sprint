@@ -1,9 +1,12 @@
 import { combineReducers } from 'redux';
-import { GET_FRIENDS } from '../actions';
+import { GET_FRIENDS, ADD_FRIEND } from '../actions';
 
 const friendsReducer = (friends = [], action) => {
     switch(action.type) {
         case GET_FRIENDS:
+        console.log(action.payload);
+            return action.payload.data;
+        case ADD_FRIEND:
             return action.payload.data;
         default:
             return friends;

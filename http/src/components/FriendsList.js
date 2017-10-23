@@ -1,12 +1,28 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getFriends } from '../actions';
+import { getFriends, addFriend } from '../actions';
 import axios from 'axios';
 
 class FriendsList extends Component {
+	constructor() {
+		super();
+		this.state = {
+			newFriend: ''	
+		};
+	}
     componentDidMount() {
-        this.props.getFriends();
-    }
+		this.props.getFriends();
+	}
+	submitter = (event) => {
+		event.preventDefault();
+		this.props.addFriend({name:this.state.newFriend, age:'placeholderAge', email:'placeholderEmail'});
+	}
+	handleName = (event) => {
+		this.setState({
+			newFriend: event.target.value
+		});
+		
+	}
 
     render() {
         return (
@@ -23,6 +39,9 @@ class FriendsList extends Component {
                         );
                     })}
                 </ul>
+                <form onSubmit={this.submitter}>
+					<input type="text" onChange={this.handleName} placeholder='Add a new friend!' value={this.state.newFriend}/>			
+                </form>
             </div>
         );
     }
@@ -34,4 +53,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, { getFriends })(FriendsList);
+export default connect(mapStateToProps, { getFriends, addFriend })(FriendsList);
